@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- Somehow I got an error, so I comment the title, just uncomment to show -->
+    <!-- <title>Responsive Chat Box Design | CodingNepal</title> -->
+<!--    <link rel="stylesheet" href="style.css">-->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- BootstrapJS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <!--
+   $(document).ready(function() {
+  $('[data-toggle="tooltip"]').tooltip("show");
+});
+-->
+      <script>
+ $(window).on("load", function(){
+   $('[data-toggle="tooltip"]').tooltip().mouseover();
+   });
+</script>
+      <style>
+  :root {
+                --body-bg: linear-gradient(135deg, #023c4a 0%, #62bd44 100%);
+                --msger-bg: #fff;
+                --border: 0px solid #ddd;
+                --left-msg-bg: #62bd44;
+                --right-msg-bg: #023c4a;
+               }
+          @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: var(--body-bg);
+  font-family: Helvetica, sans-serif;
+}
+
+#click {
+  display: none;
+}
+
+label {
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  height: 65px;
+  width: 65px;
+  background: #023c4a;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 50px;
+  font-size: 30px;
+  color: #73AD21;
+  cursor: pointer;
+}
+
+/*label:hover, label:active, input:hover+label, input:active+label {
+    background:blue;
+}*/
+label i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+}
+
+label i.fas {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#click:checked~label i.fas {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+#click:checked~label i.fab {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+
+
+.wrapper {
+  position: absolute;
+  right: 30px;
+  bottom: 0px;
+  width: 400px;
+  height: calc(100% - 110px);
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#click:checked~.wrapper {
+  opacity: 1;
+  bottom: 90px;
+  pointer-events: auto;
+}
+
+.wrapper .msger-header {
+  /* display: flex; */
+  line-height: 50px;
+  justify-content: space-between;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  padding: 0 20px;
+  font-weight: 500;
+  font-size: 20px;
+  background: #023c4a;
+  color: #62bd44;
+}
+
+.wrapper .msger-chat {
+  flex: 0;
+  height: calc(100% - 110px);
+  overflow-y: scroll;
+  padding: 15px;
+  font-size: 15px;
+}
+.wrapper .msger-chat::-webkit-scrollbar {
+  width: 6px;
+}
+.wrapper .msger-chat::-webkit-scrollbar-track {
+  background: #ddd;
+}
+.wrapper .msger-chat::-webkit-scrollbar-thumb {
+  background: #023c4a;
+}
+.wrapper .msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.wrapper .msg-img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  background: #ddd;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  padding: 25px;
+}
+
+.wrapper .msg-bubble {
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 15px;
+  background: var(--left-msg-bg);
+}
+
+.wrapper .msg-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.wrapper .msg-info-name {
+  margin-right: 15px;
+  margin-top:-3px;
+  margin-bottom:-7px;
+  font-weight: bold;
+}
+
+.wrapper .msg-info-time {
+  font-size: 0.85em;
+  margin-left:130px;
+  margin-top:6px;
+}
+
+.left-msg .msg-bubble {
+  border-bottom-left-radius: 0;
+}
+
+.wrapper .right-msg {
+  flex-direction: row-reverse;
+}
+.right-msg .msg-bubble {
+  background: var(--right-msg-bg);
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+.right-msg .msg-img {
+  margin: 0 0 0 10px;
+}
+
+.right-msg .msg-info-name{
+ margin-right: 15px;
+  margin-top:-3px;
+  margin-bottom:-7px;
+  font-weight: bold;
+}
+.wrapper .msger-inputarea {
+  display: flex;
+  padding: 10px;
+  border-radius: 0px 0px 10px 10px;
+  border-top: var(--border);
+  background: #eee;
+}
+.wrapper .msger-inputarea * {
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+}
+.wrapper .msger-input {
+  flex: 1;
+  background: #ddd;
+}
+.wrapper .msger-send-btn {
+  margin-left: 10px;
+  background: #023c4a;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.23s;
+}
+.wrapper .msger-send-btn:hover {
+  background: #023c4a;
+}
+.msger-chat {
+  background-color: #fcfcfe;
+}
+
+label i.fab + .tooltip >.tooltip-inner {
+  background-color: #023c4a !important;
+  color: white;
+  /*border: 2px solid black;*/
+  !important;border-radius: 30px;
+  !important;padding: 8px;
+  font-size: 15px;
+  text-align: center;
+  !important;margin-left: -250px;
+  !important;max-width: 400px;
+  margin-bottom:25px !important;
+}
+
+label i.fab + .tooltip >.tooltip-arrow{
+  margin-bottom:25px !important;
+  border-top-color: #023c4a;
+}
+
+
+
+      </style>
+<!--
+label i.fab + .tooltip.top >.tooltip-arrow{
+  margin-bottom:30px !important;
+  border-top-color: #023c4a;
+}
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-bottom-color: #000000; /* black */
+  border-width: 0 5px 5px;
+label i.fab + .tooltip >.tooltip-arrow{
+  /*display: none;*/
+  background-color: #73AD21;
+  /*border: 3px solid red;*/
+}
+.tooltip-arrow,
+label i.fab + .tooltip> .tooltip-inner {background-color: red;}
+-->
+  </head>
+  <body>
+  <section class="msger">
+      <div class="container">
+    <input type="checkbox" id="click"/>
+    <label for="click" >
+<!--        '[data-toggle="tooltip"]'-->
+      <i class="fab fa fa-comments"   data-toggle="tooltip"  title="Hi there! My name is KCB-Bot, your banking chat-bot.
+                                            I can help you with any KCB banking queries via chat. To start,
+                                            please click me. I’ll be happy to assist you right away! &#128522"></i>
+      <i class="fas fa-times"></i>
+    </label>
+
+    <div class="wrapper">
+            <header class="msger-header">
+                    <div class="msger-header-title">
+                        <i class="fa fa-university"></i> KCB Bank Chatbot <!-- <i class="fa fa-comments"></i>-->
+                    </div>
+            </header>
+            <main class="msger-chat">
+                    <div class="msg left-msg">
+                            <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)">
+
+                            </div>
+
+                                <div class="msg-bubble">
+                                    <div class="msg-info">
+                                        <div class="msg-info-name">KCB-Bot</div>
+                                            <!--<div class="msg-info-time">12:45</div>-->
+                                    </div>
+
+                                        <div class="msg-text">
+                                            Hi there! My name is KCB-Bot, your banking chat-bot.
+                                            I can help you with any KCB banking queries via chat. To start,
+                                            please click me. I’ll be happy to assist you right away! &#128522
+                                        </div>
+                                </div>
+                    </div>
+
+            </main>
+
+            <form class="msger-inputarea">
+                <input type="text" class="msger-input" id="textInput" placeholder="Enter your message...">
+                <button type="submit" class="msger-send-btn">Send</button>
+            </form>
+    </div>
+          </div>
+  </section>
+<!--  <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>-->
+  <!--    setTimeout(function(){ $('[data-toggle="tooltip"]').tooltip('hide'); }, 1000);-->
+<!--  $('[data-toggle="tooltip"]').tooltip({-->
+<!--   // tweak the position-->
+<!--   offset: [10, 2],-->
+
+<!--   // use the "slide" effect-->
+<!--   effect: 'slide'-->
+
+<!--// add dynamic plugin with optional configuration for bottom edge-->
+<!--}).dynamic({ left: { direction: 'down', bounce: true } });-->
+<!--$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip("show");
+ });-->
+
+   <script>
+
+    const msgerForm = get(".msger-inputarea");
+    const msgerInput = get(".msger-input");
+    const msgerChat = get(".msger-chat");
+
+
+    // Icons made by Freepik from www.flaticon.com
+    const BOT_IMG = "https://image.flaticon.com/icons/svg/327/327779.svg";
+    const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
+    const BOT_NAME = "KCB-Bot";
+    const PERSON_NAME = "Customer";
+
+    msgerForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const msgText = msgerInput.value;
+      if (!msgText) return;
+
+      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+      msgerInput.value = "";
+      botResponse(msgText);
+    });
+
+    function appendMessage(name, img, side, text) {
+      //   Simple solution for small apps
+      const msgHTML = `
+<div class="msg ${side}-msg">
+  <div class="msg-img" style="background-image: url(${img})"></div>
+
+  <div class="msg-bubble">
+    <div class="msg-info">
+      <div class="msg-info-name">${name}</div>
+      <div class="msg-info-time">${formatDate(new Date())}</div>
+    </div>
+
+    <div class="msg-text">${text}</div>
+  </div>
+</div>
+`;
+
+      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+      msgerChat.scrollTop += 500;
+    }
+
+    function botResponse(rawText) {
+
+      // Bot Response
+      $.get("/get", { msg: rawText }).done(function (data) {
+        console.log(rawText);
+        console.log(data);
+        const msgText = data;
+        appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
+
+      });
+
+    }
+
+
+    // Utils
+    function get(selector, root = document) {
+      return root.querySelector(selector);
+    }
+
+    function formatDate(date) {
+      const h = "0" + date.getHours();
+      const m = "0" + date.getMinutes();
+
+      return `${h.slice(-2)}:${m.slice(-2)}`;
+    }
+  </script>
+</body>
+</html>
